@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'docker logs traefik.1.g5kjpwcdqfdhvxf868gkwenma --tail 30 2>&1')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'curl -s -o /dev/null -w \"HTTP Status: %{http_code}\\\\nTime: %{time_total}s\\\\n\" http://localhost:5678/healthz 2>&1')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'docker logs n8n_postgres.1.cglifv2pafigwrqtm09lybvzr --tail 20 2>&1')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'find /etc/easypanel -name \"*.json\" -o -name \"*.conf\" 2>/dev/null | xargs ls -la 2>/dev/null')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'docker logs easypanel.1.s3ge73bop65wzr74egat8pg5c 2>&1')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'docker ps -a --format \"table {{.Names}}\\\\t{{.Status}}\" | grep easy')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'docker logs easypanel.1.z5s6x8cw42iu5z53vd3rpovki 2>&1')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'strings /etc/easypanel/data/data.mdb | grep -v \"^[[:space:]]*$\" | head -50')",
+      "Bash(SSH_ASKPASS=/tmp/sshpass.sh SSH_ASKPASS_REQUIRE=force ssh -o StrictHostKeyChecking=no root@31.97.83.191 'node --version 2>/dev/null || echo \"node not found\"; which node 2>/dev/null')",
+      "Bash(grep -r \"api\\\\\\\\.post\\\\\\\\|api\\\\\\\\.put\\\\\\\\|api\\\\\\\\.delete\\\\\\\\|api\\\\\\\\.patch\" c:/Users/Usuario/Documents/srmobic/pwa/src --include=\"*.tsx\" --include=\"*.ts\")",
+      "Bash(npm install:*)"
+    ]
+  }
+}

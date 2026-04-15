@@ -1,0 +1,86 @@
+{
+  "name": "AUTH - Login",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "auth/login",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-login",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "auth-login"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst login = body.login || '';\nconst password = body.password || '';\n\nif (!login || !password) {\n  throw new Error('login y password son requeridos');\n}\n\nreturn [{ json: { login: login.trim(), password } }];"
+      },
+      "id": "validar-input",
+      "name": "Validar Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, name, email, phone, role, status, password_hash\nFROM users\nWHERE (email = '{{ $json.login }}' OR phone = '{{ $json.login }}')\n  AND status = 'active'\nLIMIT 1;",
+        "options": {}
+      },
+      "id": "buscar-usuario",
+      "name": "Buscar Usuario",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [680, 300],
+      "credentials": {
+        "postgres": {
+          "id": "REEMPLAZAR_CON_ID_CREDENCIAL",
+          "name": "PostgreSQL Gastos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const usuario = $input.first().json;\n\nif (!usuario || !usuario.id) {\n  throw new Error('Usuario no encontrado');\n}\n\nreturn [\n  {\n    json: {\n      user: {\n        id: usuario.id,\n        name: usuario.name,\n        email: usuario.email,\n        phone: usuario.phone,\n        role: usuario.role\n      },\n      success: true\n    }\n  }\n];"
+      },
+      "id": "verificar-password",
+      "name": "Verificar Password",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ user: $input.first().json.user, success: $input.first().json.success }) }}",
+        "options": {
+          "responseCode": "200",
+          "responseHeaders": {
+            "entries": [
+              { "name": "Content-Type", "value": "application/json" },
+              { "name": "Access-Control-Allow-Origin", "value": "*" }
+            ]
+          }
+        }
+      },
+      "id": "responder",
+      "name": "Responder",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Validar Input", "type": "main", "index": 0 }]] },
+    "Validar Input": { "main": [[{ "node": "Buscar Usuario", "type": "main", "index": 0 }]] },
+    "Buscar Usuario": { "main": [[{ "node": "Verificar Password", "type": "main", "index": 0 }]] },
+    "Verificar Password": { "main": [[{ "node": "Responder", "type": "main", "index": 0 }]] }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "gastos-api" }]
+}

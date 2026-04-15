@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    /* Evita el rebote en iOS */
+    overscroll-behavior: none;
+  }
+  /* Área segura para iPhone con notch */
+  #root {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
