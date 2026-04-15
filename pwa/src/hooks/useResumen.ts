@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { api } from '../config/api'
-import type { Resumen } from '../types'
+import type { DashboardSummary } from '../types'
 
 export function useResumen(mes?: string) {
-  const [resumen, setResumen] = useState<Resumen | null>(null)
+  const [resumen, setResumen] = useState<DashboardSummary | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

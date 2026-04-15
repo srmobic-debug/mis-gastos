@@ -81,26 +81,26 @@ export default function Gastos() {
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0"
-                style={{ backgroundColor: g.categoria_color + '22' }}
+                style={{ backgroundColor: g.category_color + '22' }}
               >
-                {g.categoria_icono || '💰'}
+                {g.category_icon || '💰'}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-gray-800 truncate">
-                  {g.descripcion || g.categoria || 'Sin descripción'}
+                  {g.description || g.category_name || 'Sin descripción'}
                 </p>
                 <p className="text-xs text-gray-400 flex gap-2">
                   <span>
-                    {new Date(g.fecha).toLocaleDateString('es', {
+                    {new Date(g.expense_date).toLocaleDateString('es', {
                       day: 'numeric', month: 'short'
                     })}
                   </span>
-                  {g.categoria && <span>· {g.categoria}</span>}
-                  <span>· {g.fuente}</span>
+                  {g.category_name && <span>· {g.category_name}</span>}
+                  <span>· {g.capture_channel}</span>
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-sm font-bold text-gray-900">{formatMoney(g.monto)}</span>
+                <span className="text-sm font-bold text-gray-900">{formatMoney(g.amount || 0)}</span>
                 <button
                   onClick={() => eliminarGasto(g)}
                   disabled={eliminando === g.id}
