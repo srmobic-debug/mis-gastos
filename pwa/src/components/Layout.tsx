@@ -78,7 +78,7 @@ export default function Layout({ children, pendingCount = 0 }: LayoutProps) {
             to={item.to}
             end={item.to === '/'}
             onClick={() => setSidebarOpen(false)}
-            className={({ isActive }) => 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors'}
+            className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors'
             style={({ isActive }) => ({
               backgroundColor: isActive ? 'var(--error-light)' : 'transparent',
               color: isActive ? 'var(--red-primary)' : 'var(--gray-400)',
@@ -101,7 +101,7 @@ export default function Layout({ children, pendingCount = 0 }: LayoutProps) {
           <NavLink
             to="/perfil"
             onClick={() => setSidebarOpen(false)}
-            className={({ isActive }) => 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors'}
+            className='flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors'
             style={({ isActive }) => ({
               backgroundColor: isActive ? 'var(--error-light)' : 'transparent',
               color: isActive ? 'var(--red-primary)' : 'var(--gray-400)',

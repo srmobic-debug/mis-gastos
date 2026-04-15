@@ -1,7 +1,6 @@
 import { useState, FormEvent, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useCategorias } from '../hooks/useCategorias'
-import { useAuth } from '../context/AuthContext'
 import { api } from '../config/api'
 
 const PAYMENT_METHODS = [
@@ -14,7 +13,6 @@ const PAYMENT_METHODS = [
 export default function Agregar() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { user } = useAuth()
   const { categorias } = useCategorias()
 
   const [monto, setMonto] = useState('')
