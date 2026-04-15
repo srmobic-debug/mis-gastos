@@ -24,7 +24,7 @@ export default function Perfil() {
     setSavingProfile(true)
     setProfileMsg('')
     try {
-      await api.put(`/api/users/${user?.id}`, { name, email })
+      await api.put('/api/v1/users/profile', { name })
       setProfileMsg('Perfil actualizado correctamente')
     } catch { setProfileMsg('Error al actualizar el perfil') }
     finally { setSavingProfile(false) }
@@ -35,13 +35,14 @@ export default function Perfil() {
     setPassError('')
     setPassMsg('')
     if (newPass !== confirmPass) { setPassError('Las contraseñas no coinciden'); return }
-    if (newPass.length < 8) { setPassError('La contraseña debe tener al menos 8 caracteres'); return }
+    if (newPass.length < 6) { setPassError('La contraseña debe tener al menos 6 caracteres'); return }
 
     setSavingPass(true)
     try {
-      await api.post('/api/auth/change-password', {
-        current_password: currPass,
-        new_password: newPass,
+      await api.post('/api/v1/users/change-password', {
+        currentPassword: currPass,
+        newPassword: newPass,
+        confirmPassword: confirmPass
       })
       setPassMsg('Contraseña cambiada correctamente')
       setCurrPass('')

@@ -1,5 +1,4 @@
 import pool from '../config/database.js';
-import { v4 as uuidv4 } from 'uuid';
 
 export const getExpenses = async (req, res, next) => {
   try {
@@ -71,7 +70,7 @@ export const getExpenses = async (req, res, next) => {
 
 export const createExpense = async (req, res, next) => {
   try {
-    // Obtener el usuario por email (más confiable que por ID)
+    // Obtener el usuario por email
     const userEmail = req.user.email;
     const userResult = await pool.query('SELECT id FROM users WHERE email = $1', [userEmail]);
 
@@ -98,12 +97,11 @@ export const createExpense = async (req, res, next) => {
       });
     }
 
-    const id = uuidv4();
     const result = await pool.query(
-      `INSERT INTO expenses (id, user_id, description, amount, expense_date, category_id, payment_method, capture_channel, status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      `INSERT INTO expenses (user_id, description, amount, expense_date, category_id, payment_method, capture_channel, status)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING id, description, amount, expense_date, category_id`,
-      [id, userId, description, amountNum, date, category_id, payment_method || null, capture_channel || 'manual', 'confirmed']
+      [userId, description, amountNum, date, category_id, payment_method || null, capture_channel || 'manual', 'confirmed']
     );
 
     res.status(201).json({

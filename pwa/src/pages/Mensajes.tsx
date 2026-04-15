@@ -118,7 +118,7 @@ export default function Mensajes() {
                   </p>
                   {msg.expense_amount && (
                     <p className="text-xs text-green-600 mt-1 font-medium">
-                      → Gasto: L {Number(msg.expense_amount).toLocaleString()} {msg.expense_category_icon} {msg.expense_category}
+                      → Gasto: $ {Number(msg.expense_amount).toLocaleString()} {msg.expense_category_icon} {msg.expense_category}
                     </p>
                   )}
                   {msg.error_reason && (
@@ -143,7 +143,7 @@ export default function Mensajes() {
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-500">Gasto generado:</span>
                         <span className="text-xs font-semibold text-green-700">
-                          #{msg.expense_id} · L {Number(msg.expense_amount).toLocaleString()} · <StatusBadge status={msg.expense_status || ''} />
+                          #{msg.expense_id} · $ {Number(msg.expense_amount).toLocaleString()} · <StatusBadge status={msg.expense_status || ''} />
                         </span>
                       </div>
                     ) : (

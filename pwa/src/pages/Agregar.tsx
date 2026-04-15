@@ -106,7 +106,7 @@ export default function Agregar() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-            {categorias.filter(cat => !cat.name?.toUpperCase().includes('CIRCLE')).map(cat => (
+            {categorias.filter(cat => !cat.name?.toUpperCase().includes('CIRCLE') && !cat.name?.toUpperCase().includes('OTROS')).map(cat => (
               <button
                 key={cat.id}
                 type="button"

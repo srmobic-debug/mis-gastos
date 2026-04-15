@@ -7,6 +7,8 @@ import authRoutes from './routes/auth.routes.js';
 import categoriesRoutes from './routes/categories.routes.js';
 import expensesRoutes from './routes/expenses.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
+import messagesRoutes from './routes/messages.routes.js';
+import usersRoutes from './routes/users.routes.js';
 
 // Importar middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -38,11 +40,15 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/expenses', expensesRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
+app.use('/api/v1/messages', messagesRoutes);
+app.use('/api/v1/users', usersRoutes);
 
 // API sin versión (para compatibilidad con frontend)
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/expenses', expensesRoutes);
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/messages', messagesRoutes);
+app.use('/api/users', usersRoutes);
 
 // Health check
 app.get('/api/v1/health', (req, res) => {
