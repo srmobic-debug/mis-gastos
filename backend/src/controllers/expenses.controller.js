@@ -3,6 +3,7 @@ import pool from '../config/database.js';
 export const getExpenses = async (req, res, next) => {
   try {
     const userId = req.user.id;
+    const isAdmin = req.user.role === 'admin';
     const { fecha_desde, fecha_hasta, category_id, status, search, limit = '1000', offset = '0' } = req.query;
 
     let query = `SELECT
@@ -18,10 +19,16 @@ export const getExpenses = async (req, res, next) => {
       c.icon
     FROM expenses e
     LEFT JOIN categories c ON e.category_id = c.id
-    WHERE e.user_id = $1`;
+    WHERE 1=1`;
 
-    const params = [userId];
-    let paramCount = 2;
+    const params = [];
+    let paramCount = 1;
+
+    if (!isAdmin) {
+      query += ` AND e.user_id = $${paramCount}`;
+      params.push(userId);
+      paramCount++;
+    }
 
     if (fecha_desde) {
       query += ` AND e.expense_date >= $${paramCount}`;
@@ -192,16 +199,23 @@ export const deleteExpense = async (req, res, next) => {
 export const getSummary = async (req, res, next) => {
   try {
     const userId = req.user.id;
+    const isAdmin = req.user.role === 'admin';
 
-    const result = await pool.query(
-      `SELECT
-        SUM(amount) as total,
-        COUNT(*) as count,
-        AVG(amount) as average
-       FROM expenses
-       WHERE user_id = $1`,
-      [userId]
-    );
+    let query = `SELECT
+      SUM(amount) as total,
+      COUNT(*) as count,
+      AVG(amount) as average
+     FROM expenses
+     WHERE 1=1`;
+
+    const params = [];
+
+    if (!isAdmin) {
+      query += ` AND user_id = $1`;
+      params.push(userId);
+    }
+
+    const result = await pool.query(query, params);
 
     res.status(200).json({
       summary: {
